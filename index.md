@@ -1,81 +1,141 @@
----
-title: "Proyek UAS Data Mining - Analisis Traffic Jaringan"
----
-
-# 🧠 Proyek UAS Data Mining: Klasifikasi Traffic Jaringan
-
-## 📌 Pendahuluan
-
-Dalam dunia siber yang semakin kompleks, lalu lintas jaringan (network traffic) merupakan sumber data penting dalam mendeteksi ancaman seperti serangan DoS dan DDoS. Melalui proyek UAS ini, kami melakukan eksplorasi dan analisis terhadap dataset yang berisi traffic normal (benign) sebagai langkah awal membangun sistem deteksi dini berbasis machine learning.
+# 📊 Proyek UAS Data Mining  
+## Deteksi DoS dan DDoS Attack Menggunakan Dataset Lalu Lintas Jaringan
 
 ---
 
-## 🎯 Tujuan Proyek
+## 🧠 Pendahuluan
 
-- Mengeksplorasi dataset lalu lintas jaringan
-- Mempersiapkan data untuk proses klasifikasi (pra-pemrosesan)
-- Menjadi dasar awal untuk eksperimen deteksi serangan DDoS/DoS
+Dalam era digital saat ini, serangan terhadap infrastruktur jaringan menjadi semakin kompleks dan sering terjadi. Salah satu jenis serangan yang umum adalah **Denial of Service (DoS)** dan **Distributed Denial of Service (DDoS)**. Keduanya bertujuan mengganggu layanan dengan cara membanjiri sistem target menggunakan trafik palsu dalam jumlah besar.
 
----
-
-## 📂 Dataset
-
-Dataset ini terdiri dari:
-- Jumlah Data: **32.620 entri**
-- Jumlah Fitur: **85 fitur**
-- Label: **1 jenis** — *Benign Traffic*
-
-### 🧾 Contoh Fitur dalam Dataset
-- IP dan Port (Src/Dst)
-- Durasi aliran (Flow Duration)
-- Jumlah paket FWD/BWD
-- Rata-rata dan standar deviasi panjang paket
-- Flag jaringan (SYN, ACK, URG)
-- Throughput (Bytes/s dan Packets/s)
-- Timestamp dan informasi protokol
+Proyek ini bertujuan untuk menganalisis dataset lalu lintas jaringan dan membangun sistem klasifikasi yang mampu mendeteksi berbagai jenis serangan DoS/DDoS. Melalui pendekatan data mining dan pembelajaran mesin (machine learning), sistem ini diharapkan dapat mengenali pola lalu lintas anomali secara otomatis dan akurat.
 
 ---
 
-## 📊 Distribusi Label
+## 👥 Anggota Kelompok Data Mining - FTI UNPAM
 
-![Distribusi Label Dummy](images/distribusi_label_dummy.png)
+- Aditya Eko Nugroho  
+- Farid Mardan Aziz  
+- Ma'ruf Nizar Fazari  
+- Raden Aditya Rahmat  
+- Zidan Faturrahman
+
+---
+
+## 📈 Distribusi Label Dataset (Simulasi)
+
+Grafik berikut menggambarkan distribusi jumlah data per label (simulasi):
+
 ![Distribusi Label Simulasi](images/distribusi_label_simulasi_dos_ddos.png)
 
-Saat ini, dataset hanya mencakup satu jenis traffic:
+---
 
-| Label            | Jumlah Data |
-|------------------|-------------|
-| Benign Traffic   | 32.620      |
+## 🔎 Ringkasan Dataset Per Jenis Serangan
 
-Ini berarti semua data dalam file termasuk kategori **normal**. Dataset serangan akan ditambahkan untuk proses pelatihan model klasifikasi lebih lanjut.
+### 📘 1. Benign Traffic
+Lalu lintas jaringan **normal** tanpa aktivitas berbahaya. Ini menjadi dasar pembanding dalam klasifikasi.
+
+**Ciri-ciri:**
+- Komunikasi dua arah wajar (client-server)
+- Tidak ada lonjakan paket mencurigakan
+- Tidak mengandung aktivitas flooding
+
+**Kegunaan:**
+- Sebagai baseline model klasifikasi untuk mendeteksi anomali
 
 ---
 
-## ⚙️ Rencana Pengembangan
+### ⚠️ 2. DDoS ICMP Flood
 
-1. 🔄 **Penambahan Data Serangan**
-   - DDoS ICMP Flood
-   - DoS ICMP Flood
-   - DoS UDP Flood
-   - DDoS UDP Flood
+Jenis serangan **DDoS (Distributed Denial of Service)** menggunakan paket ICMP dari **banyak sumber** (botnet) untuk membanjiri satu target.
 
-2. 🧪 **Pelatihan Model Klasifikasi**
-   - Algoritma: Random Forest, SVM, Decision Tree, KNN
-   - Metrik: Akurasi, Precision, Recall, F1-score
-   - Visual: Confusion Matrix, ROC Curve
+![Distribusi DDoS ICMP Flood](images/ddos_icmp_flood.png)
 
-3. 🚀 **Integrasi Model**
-   - Sebagai modul pendeteksi dini intrusi (IDS)
-   - Integrasi ke sistem monitoring jaringan real-time
+**Ciri-ciri:**
+- Sumber: Banyak IP berbeda
+- Protokol: ICMP
+- Serangan masif dalam waktu singkat
+
+**Contoh:** Ping flood ke DNS Server dari jaringan botnet
+
+**Kelebihan:**  
+✅ Sulit difilter karena tersebar  
+**Kekurangan:**  
+❌ Butuh koordinasi botnet
 
 ---
 
-## 🛠️ Tools & Teknologi
+### ⚠️ 3. DoS ICMP Flood
 
-- Python (pandas, scikit-learn, matplotlib)
-- Jupyter Notebook
-- GitHub Pages (untuk dokumentasi blog ini)
-- Git (versi kontrol dan publikasi)
+Serangan dari **satu sumber** menggunakan paket ICMP secara masif untuk menjatuhkan layanan.
+
+![Distribusi DoS ICMP Flood](images/dos_icmp_flood.png)
+
+**Ciri-ciri:**
+- Sumber: 1 IP
+- Protokol: ICMP (Echo Request)
+- Volume tinggi, arah tunggal
+
+**Contoh:** `ping -f` ke server aplikasi
+
+**Kelebihan:**  
+✅ Praktis, bisa dilakukan langsung  
+**Kekurangan:**  
+❌ Mudah diblok oleh firewall
+
+---
+
+### ⚠️ 4. DoS UDP Flood
+
+Menargetkan **port acak** menggunakan protokol UDP, memicu sistem mengirim balasan ICMP unreachable.
+
+![Distribusi DoS UDP Flood](images/dos_udp_flood.png)
+
+**Ciri-ciri:**
+- Sumber: 1 IP
+- Protokol: UDP
+- Menyerang port secara acak
+
+**Contoh:** Menyerang VoIP server
+
+**Kelebihan:**  
+✅ Connectionless, cepat dijalankan  
+**Kekurangan:**  
+❌ Polanya dapat dibaca sistem
+
+---
+
+### ⚠️ 5. DDoS UDP Flood
+
+Serangan UDP dalam skala besar dari **berbagai sumber** yang membanjiri sistem target hingga lumpuh.
+
+![Distribusi DDoS UDP Flood](images/ddos_udp_flood.png)
+
+**Ciri-ciri:**
+- Sumber: Banyak IP
+- Protokol: UDP
+- Target: Port umum (53, 123, 80)
+
+**Contoh:** Reflected attack terhadap DNS resolver
+
+**Kelebihan:**  
+✅ Mampu menjatuhkan sistem besar  
+**Kekurangan:**  
+❌ Dapat menghasilkan trafik balik berbahaya
+
+---
+
+## 📌 Kesimpulan
+
+Setiap jenis serangan memiliki pola khas yang dapat dikenali menggunakan pendekatan supervised learning. Pemahaman mendalam terhadap dataset ini sangat krusial untuk membangun model klasifikasi yang akurat dan dapat digunakan dalam sistem deteksi intrusi jaringan (IDS).
+
+---
+
+## ✍️ Dokumentasi Tambahan
+
+- Akan ditambahkan:
+  - 📈 Confusion Matrix dan akurasi model
+  - 📘 Ringkasan algoritma klasifikasi (KNN, Decision Tree)
+  - 📥 Dataset lanjutan dan evaluasi
 
 ---
 
@@ -83,12 +143,7 @@ Ini berarti semua data dalam file termasuk kategori **normal**. Dataset serangan
 
 - [Scikit-learn Documentation](https://scikit-learn.org/)
 - [Kaggle DDoS Dataset](https://www.kaggle.com/datasets)
-- [Cloudflare: What is DDoS?](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/)
+- [Cloudflare - What is DDoS?](https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/)
 
 ---
 
-## ✍️ Penutup
-
-Proyek ini merupakan bagian dari UAS mata kuliah **Data Mining**. Tahap awal ini mengeksplorasi struktur data benign traffic, dan akan berkembang menjadi sistem deteksi intrusi setelah penambahan data serangan. Seluruh proses dan hasil akan didokumentasikan melalui blog ini.
-
-> Blog akan terus diperbarui seiring dengan penambahan data dan hasil eksperimen.
