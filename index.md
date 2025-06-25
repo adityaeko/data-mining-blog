@@ -38,6 +38,8 @@ Dataset ini terdiri dari:
 
 ## 📊 Distribusi Label
 
+![Distribusi Label](images/distribusi_label_dummy.png)
+
 Saat ini, dataset hanya mencakup satu jenis traffic:
 
 | Label            | Jumlah Data |
