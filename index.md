@@ -38,7 +38,8 @@ Dataset ini terdiri dari:
 
 ## 📊 Distribusi Label
 
-![Distribusi Label](images/distribusi_label_dummy.png)
+![Distribusi Label Dummy](images/distribusi_label_dummy.png)
+![Distribusi Label Simulasi](images/distribusi_label_simulasi_dos_ddos.png)
 
 Saat ini, dataset hanya mencakup satu jenis traffic:
 
