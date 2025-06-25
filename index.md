@@ -124,18 +124,74 @@ Serangan UDP dalam skala besar dari **berbagai sumber** yang membanjiri sistem t
 
 ---
 
-## 📌 Kesimpulan
+---
 
-Setiap jenis serangan memiliki pola khas yang dapat dikenali menggunakan pendekatan supervised learning. Pemahaman mendalam terhadap dataset ini sangat krusial untuk membangun model klasifikasi yang akurat dan dapat digunakan dalam sistem deteksi intrusi jaringan (IDS).
+## 🧠 Ringkasan Algoritma Klasifikasi
+
+Dalam proses deteksi serangan jaringan, beberapa algoritma machine learning digunakan untuk mengklasifikasikan jenis trafik berdasarkan pola fitur yang ada. Berikut adalah dua algoritma utama yang digunakan:
 
 ---
 
-## ✍️ Dokumentasi Tambahan
+### 🌳 1. Decision Tree
 
-- Akan ditambahkan:
-  - 📈 Confusion Matrix dan akurasi model
-  - 📘 Ringkasan algoritma klasifikasi (KNN, Decision Tree)
-  - 📥 Dataset lanjutan dan evaluasi
+Algoritma **Decision Tree** bekerja dengan membagi data berdasarkan fitur yang memberikan informasi paling tinggi (information gain). Hasilnya berupa struktur pohon keputusan yang dapat dengan mudah divisualisasikan dan ditafsirkan.
+
+**Kelebihan:**
+- Mudah dimengerti (interpretability tinggi)
+- Cepat membentuk model
+- Tidak perlu scaling data
+
+**Kekurangan:**
+- Rentan terhadap overfitting (jika pohon terlalu dalam)
+- Tidak stabil jika data sedikit berubah
+
+**Contoh Aplikasi:**
+- Mengklasifikasikan jenis serangan berdasarkan flag, durasi, dan panjang paket
+
+---
+
+### 🧭 2. K-Nearest Neighbors (KNN)
+
+Algoritma **KNN** mengklasifikasikan data baru berdasarkan kedekatan (jarak) dengan data yang sudah dilabeli. Algoritma ini bekerja tanpa pelatihan eksplisit, sehingga disebut sebagai _lazy learner_.
+
+**Kelebihan:**
+- Implementasi sederhana
+- Cocok untuk data dengan batas keputusan yang kompleks
+
+**Kekurangan:**
+- Boros memori (harus menyimpan seluruh data latih)
+- Lambat saat prediksi untuk data besar
+
+**Contoh Aplikasi:**
+- Memprediksi apakah lalu lintas jaringan tergolong serangan dengan membandingkan kemiripannya ke data sebelumnya
+
+---
+
+## 📉 Visualisasi Confusion Matrix
+
+Berikut adalah contoh hasil klasifikasi dalam bentuk confusion matrix yang menggambarkan performa model terhadap data:
+
+![Confusion Matrix Dummy](images/confusion_matrix_dummy.png)
+
+**Interpretasi:**
+- Setiap baris menunjukkan data aktual
+- Setiap kolom menunjukkan prediksi model
+- Nilai diagonal = prediksi benar
+- Nilai di luar diagonal = kesalahan klasifikasi
+
+---
+
+## ✅ Kesimpulan
+
+Proyek ini berhasil menyajikan eksplorasi awal terhadap dataset lalu lintas jaringan yang mencakup berbagai jenis trafik, mulai dari benign (normal) hingga beberapa tipe serangan DoS dan DDoS. Melalui analisis visual dan klasifikasi, ditemukan bahwa setiap jenis serangan memiliki karakteristik unik yang bisa dikenali melalui fitur-fitur tertentu seperti durasi, jumlah paket, dan protokol yang digunakan.
+
+Dengan bantuan algoritma machine learning seperti Decision Tree dan K-Nearest Neighbors (KNN), sistem klasifikasi dapat dikembangkan untuk mendeteksi dan mengidentifikasi serangan secara otomatis. Visualisasi seperti confusion matrix memperlihatkan performa model dan menjadi dasar untuk perbaikan lebih lanjut.
+
+Secara umum, pendekatan data mining sangat potensial digunakan dalam pengembangan sistem deteksi dini serangan jaringan (Intrusion Detection System). Tahapan selanjutnya akan difokuskan pada pelatihan model dengan data sesungguhnya, evaluasi akurasi model, serta integrasi ke sistem real-time monitoring.
+
+> Proyek ini merupakan bagian dari UAS Mata Kuliah **Data Mining** di FTI Universitas Pamulang, dan akan terus dikembangkan sebagai kontribusi terhadap pemanfaatan data dalam keamanan jaringan.
+
+---
 
 ---
 
